@@ -22,9 +22,10 @@ class UsersController {
             } else {
                 try {
                     (async () => {
+                        const hashedPassword = sha1(password);
                         await users.insertOne({
                             email: email,
-                            password: sha1(password)
+                            password: hashedPassword
                         }).then((response) => {
                             res.status(201).json({ id: response.insertedId, email });
                         })
