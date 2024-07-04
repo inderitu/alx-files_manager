@@ -25,7 +25,7 @@ class UsersController {
                         email: email,
                         password: sha1(password)
                     }).then((response) => {
-                        res.status(200).json({ id: response.insertedId, email });
+                        res.status(201).json({ id: response.insertedId, email });
                     })
                 } catch (err) {
                     console.log(err);
