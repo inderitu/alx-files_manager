@@ -3,7 +3,8 @@ import sha1 from 'sha1';
 
 class UsersController {
     static async postNew(req, res) {
-        const { email, password } = req.body;
+        const { email } = req.body;
+        const { password } = req.body;
 
         if (!email) {
             res.status(400).json({ error: 'Missing email' });
@@ -15,6 +16,7 @@ class UsersController {
         }
         const users = dbClient.db.collection('users');
         await users.findOne({ email }, async (err, user) => {
+            if (err) throw err;
             if (user) {
                 res.status(400).json({ error: 'Already exists' });
             } else {
@@ -29,6 +31,8 @@ class UsersController {
                     console.log(err);
                 }
             }
+        }).catch((err) => {
+            console.log(err)
         })
     }
 }
