@@ -2,7 +2,7 @@ import dbClient from '../utils/db';
 import sha1 from 'sha1';
 
 class UsersController {
-    static postNew(req, res) {
+    static async postNew(req, res) {
         const { email } = req.body;
         const { password } = req.body;
 
@@ -15,7 +15,7 @@ class UsersController {
             return;
         }
         const users = dbClient.db.collection('users');
-        users.findOne({ email }, (err, user) => {
+        await users.findOne({ email }, (err, user) => {
             if (err) throw err;
             if (user) {
                 res.status(400).json({ error: 'Already exists' });
