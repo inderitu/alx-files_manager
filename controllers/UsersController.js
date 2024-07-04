@@ -21,12 +21,14 @@ class UsersController {
                 res.status(400).json({ error: 'Already exists' });
             } else {
                 try {
-                    users.insertOne({
-                        email: email,
-                        password: sha1(password)
-                    }).then((response) => {
-                        res.status(201).json({ id: response.insertedId, email });
-                    })
+                    (async () => {
+                        await users.insertOne({
+                            email: email,
+                            password: sha1(password)
+                        }).then((response) => {
+                            res.status(201).json({ id: response.insertedId, email });
+                        })
+                    })()
                 } catch (err) {
                     console.log(err);
                 }
